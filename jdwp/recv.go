@@ -17,10 +17,10 @@ package jdwp
 import (
 	"bytes"
 	"context"
+	"fmt"
 	"io"
 	"reflect"
 
-	"github.com/google/gapid/core/log"
 	"github.com/google/gapid/core/os/device"
 )
 
@@ -37,7 +37,8 @@ func (c *Connection) recv(ctx context.Context) {
 			return
 		default:
 			if !Stopped(ctx) {
-				log.W(ctx, "Failed to read packet. Error: %v", err)
+				// TODO: turn it into a log
+				fmt.Printf("Failed to read packet. Error: %v\n", err)
 			}
 			return
 		}
@@ -49,7 +50,8 @@ func (c *Connection) recv(ctx context.Context) {
 			delete(c.replies, packet.id)
 			c.Unlock()
 			if !ok {
-				log.W(ctx, "Unexpected reply for packet %d", packet.id)
+				// TODO: turn it into a log
+				fmt.Printf("Unexpected reply for packet %d\n", packet.id)
 				continue
 			}
 			out <- packet
@@ -60,7 +62,8 @@ func (c *Connection) recv(ctx context.Context) {
 				d := ByteOrderReader(bytes.NewReader(packet.data), device.BigEndian)
 				l := events{}
 				if err := c.decode(d, reflect.ValueOf(&l)); err != nil {
-					log.F(ctx, true, "Couldn't decode composite event data. Error: %v", err)
+					// TODO: turn it into a log
+					fmt.Printf("Couldn't decode composite event data. Error: %v\n", err)
 					continue
 				}
 
