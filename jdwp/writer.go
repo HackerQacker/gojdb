@@ -17,8 +17,6 @@ package jdwp
 import (
 	"fmt"
 	"reflect"
-
-	"github.com/google/gapid/core/math/f16"
 )
 
 // Writer provides methods for encoding values.
@@ -40,7 +38,7 @@ type Writer interface {
 	// Uint32 encodes an usigned, 32 bit integer value to the Writer.
 	Uint32(uint32)
 	// Float16 encodes a 16 bit floating-point value to the Writer.
-	Float16(f16.Number)
+	Float16(Number)
 	// Float32 encodes a 32 bit floating-point value to the Writer.
 	Float32(float32)
 	// Int64 encodes a signed, 64 bit integer value to the Writer.

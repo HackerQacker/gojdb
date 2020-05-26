@@ -17,8 +17,6 @@ package jdwp
 import (
 	"fmt"
 	"io"
-
-	"github.com/google/gapid/core/math/f16"
 )
 
 // Reader provides methods for decoding values.
@@ -41,7 +39,7 @@ type Reader interface {
 	// Uint32 decodes and returns an unsigned, 32 bit integer value from the Reader.
 	Uint32() uint32
 	// Float16 decodes and returns a 16 bit floating-point value from the Reader.
-	Float16() f16.Number
+	Float16() Number
 	// Float32 decodes and returns a 32 bit floating-point value from the Reader.
 	Float32() float32
 	// Int64 decodes and returns a signed, 64 bit integer value from the Reader.

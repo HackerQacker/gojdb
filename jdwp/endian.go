@@ -20,7 +20,6 @@ import (
 	"io"
 	"math"
 
-	"github.com/google/gapid/core/math/f16"
 	"github.com/google/gapid/core/os/device"
 )
 
@@ -218,11 +217,11 @@ func (w *writer) Uint64(v uint64) {
 	_, w.err = w.writer.Write(w.tmp[:8])
 }
 
-func (r *reader) Float16() f16.Number {
-	return f16.Number(r.Uint16())
+func (r *reader) Float16() Number {
+	return Number(r.Uint16())
 }
 
-func (w *writer) Float16(v f16.Number) {
+func (w *writer) Float16(v Number) {
 	w.Uint16(uint16(v))
 }
 
