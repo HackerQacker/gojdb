@@ -21,7 +21,6 @@ import (
 	"reflect"
 
 	"github.com/google/gapid/core/data/endian"
-	"github.com/google/gapid/core/event/task"
 	"github.com/google/gapid/core/log"
 	"github.com/google/gapid/core/os/device"
 )
@@ -31,14 +30,14 @@ import (
 // go routine.
 // recv returns when ctx is stopped or there's an IO error.
 func (c *Connection) recv(ctx context.Context) {
-	for !task.Stopped(ctx) {
+	for !Stopped(ctx) {
 		packet, err := c.readPacket()
 		switch err {
 		case nil:
 		case io.EOF:
 			return
 		default:
-			if !task.Stopped(ctx) {
+			if !Stopped(ctx) {
 				log.W(ctx, "Failed to read packet. Error: %v", err)
 			}
 			return
