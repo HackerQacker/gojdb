@@ -24,8 +24,6 @@ import (
 	"reflect"
 	"sync"
 	"time"
-
-	"github.com/google/gapid/core/os/device"
 )
 
 var (
@@ -60,8 +58,8 @@ func Open(ctx context.Context, conn io.ReadWriteCloser) (*Connection, error) {
 	}
 
 	buf := bufio.NewWriterSize(conn, 1024)
-	r := ByteOrderReader(conn, device.BigEndian)
-	w := ByteOrderWriter(buf, device.BigEndian)
+	r := ByteOrderReader(conn, BigEndian)
+	w := ByteOrderWriter(buf, BigEndian)
 	c := &Connection{
 		in:      conn,
 		r:       r,
@@ -128,7 +126,7 @@ func (c *Connection) get(cmd cmd, req interface{}, out interface{}) error {
 func (c *Connection) req(cmd cmd, req interface{}) (*pending, error) {
 	data := bytes.Buffer{}
 	if req != nil {
-		e := ByteOrderWriter(&data, device.BigEndian)
+		e := ByteOrderWriter(&data, BigEndian)
 		if err := c.encode(e, reflect.ValueOf(req)); err != nil {
 			return nil, err
 		}
@@ -172,7 +170,7 @@ func (p *pending) wait(out interface{}) error {
 			return nil
 		}
 		r := bytes.NewReader(reply.data)
-		d := ByteOrderReader(r, device.BigEndian)
+		d := ByteOrderReader(r, BigEndian)
 		if err := p.c.decode(d, reflect.ValueOf(out)); err != nil {
 			return err
 		}

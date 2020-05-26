@@ -20,8 +20,6 @@ import (
 	"fmt"
 	"io"
 	"reflect"
-
-	"github.com/google/gapid/core/os/device"
 )
 
 // recv decodes all the incoming reply or command packets, forwarding them on
@@ -59,7 +57,7 @@ func (c *Connection) recv(ctx context.Context) {
 		case cmdPacket:
 			switch {
 			case packet.cmdSet == cmdSetEvent && packet.cmdID == cmdCompositeEvent:
-				d := ByteOrderReader(bytes.NewReader(packet.data), device.BigEndian)
+				d := ByteOrderReader(bytes.NewReader(packet.data), BigEndian)
 				l := events{}
 				if err := c.decode(d, reflect.ValueOf(&l)); err != nil {
 					// TODO: turn it into a log

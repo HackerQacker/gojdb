@@ -19,15 +19,21 @@ import (
 	"fmt"
 	"io"
 	"math"
-
-	"github.com/google/gapid/core/os/device"
 )
 
-func byteOrder(endian device.Endian) eb.ByteOrder {
+type Endian int
+
+const (
+	UnknownEndian Endian = iota
+	BigEndian
+	LittleEndian
+)
+
+func byteOrder(endian Endian) eb.ByteOrder {
 	switch endian {
-	case device.LittleEndian:
+	case LittleEndian:
 		return eb.LittleEndian
-	case device.BigEndian:
+	case BigEndian:
 		return eb.BigEndian
 	default:
 		return eb.LittleEndian
@@ -36,13 +42,13 @@ func byteOrder(endian device.Endian) eb.ByteOrder {
 
 // ByteOrderReader creates a binary.Reader that reads from the provided io.Reader, with
 // the specified byte order.
-func ByteOrderReader(r io.Reader, endian device.Endian) Reader {
+func ByteOrderReader(r io.Reader, endian Endian) Reader {
 	return &reader{reader: r, byteOrder: byteOrder(endian)}
 }
 
 // ByteOrderWriter creates a binary.Writer that writes to the supplied stream, with the
 // specified byte order.
-func ByteOrderWriter(w io.Writer, endian device.Endian) Writer {
+func ByteOrderWriter(w io.Writer, endian Endian) Writer {
 	return &writer{writer: w, byteOrder: byteOrder(endian)}
 }
 
