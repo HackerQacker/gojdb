@@ -27,7 +27,6 @@ import (
 
 	"github.com/google/gapid/core/app/crash"
 	"github.com/google/gapid/core/data/binary"
-	"github.com/google/gapid/core/data/endian"
 	"github.com/google/gapid/core/os/device"
 )
 
@@ -63,8 +62,8 @@ func Open(ctx context.Context, conn io.ReadWriteCloser) (*Connection, error) {
 	}
 
 	buf := bufio.NewWriterSize(conn, 1024)
-	r := endian.Reader(conn, device.BigEndian)
-	w := endian.Writer(buf, device.BigEndian)
+	r := Reader(conn, device.BigEndian)
+	w := Writer(buf, device.BigEndian)
 	c := &Connection{
 		in:      conn,
 		r:       r,
@@ -130,7 +129,7 @@ func (c *Connection) get(cmd cmd, req interface{}, out interface{}) error {
 func (c *Connection) req(cmd cmd, req interface{}) (*pending, error) {
 	data := bytes.Buffer{}
 	if req != nil {
-		e := endian.Writer(&data, device.BigEndian)
+		e := Writer(&data, device.BigEndian)
 		if err := c.encode(e, reflect.ValueOf(req)); err != nil {
 			return nil, err
 		}
@@ -174,7 +173,7 @@ func (p *pending) wait(out interface{}) error {
 			return nil
 		}
 		r := bytes.NewReader(reply.data)
-		d := endian.Reader(r, device.BigEndian)
+		d := Reader(r, device.BigEndian)
 		if err := p.c.decode(d, reflect.ValueOf(out)); err != nil {
 			return err
 		}

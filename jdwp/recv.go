@@ -20,7 +20,6 @@ import (
 	"io"
 	"reflect"
 
-	"github.com/google/gapid/core/data/endian"
 	"github.com/google/gapid/core/log"
 	"github.com/google/gapid/core/os/device"
 )
@@ -58,7 +57,7 @@ func (c *Connection) recv(ctx context.Context) {
 		case cmdPacket:
 			switch {
 			case packet.cmdSet == cmdSetEvent && packet.cmdID == cmdCompositeEvent:
-				d := endian.Reader(bytes.NewReader(packet.data), device.BigEndian)
+				d := Reader(bytes.NewReader(packet.data), device.BigEndian)
 				l := events{}
 				if err := c.decode(d, reflect.ValueOf(&l)); err != nil {
 					log.F(ctx, true, "Couldn't decode composite event data. Error: %v", err)
