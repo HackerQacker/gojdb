@@ -71,7 +71,7 @@ func Open(ctx context.Context, conn io.ReadWriteCloser) (*Connection, error) {
 	}
 
 	// crash.Go(func() { c.recv(ctx) })
-	c.recv(ctx)
+	go c.recv(ctx)
 	var err error
 	c.idSizes, err = c.GetIDSizes()
 	if err != nil {
