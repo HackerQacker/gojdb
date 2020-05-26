@@ -20,7 +20,6 @@ import (
 	"io"
 	"math"
 
-	"github.com/google/gapid/core/data/binary"
 	"github.com/google/gapid/core/math/f16"
 	"github.com/google/gapid/core/os/device"
 )
@@ -36,15 +35,15 @@ func byteOrder(endian device.Endian) eb.ByteOrder {
 	}
 }
 
-// Reader creates a binary.Reader that reads from the provided io.Reader, with
+// ByteOrderReader creates a binary.Reader that reads from the provided io.Reader, with
 // the specified byte order.
-func Reader(r io.Reader, endian device.Endian) binary.Reader {
+func ByteOrderReader(r io.Reader, endian device.Endian) Reader {
 	return &reader{reader: r, byteOrder: byteOrder(endian)}
 }
 
-// Writer creates a binary.Writer that writes to the supplied stream, with the
+// ByteOrderWriter creates a binary.Writer that writes to the supplied stream, with the
 // specified byte order.
-func Writer(w io.Writer, endian device.Endian) binary.Writer {
+func ByteOrderWriter(w io.Writer, endian device.Endian) Writer {
 	return &writer{writer: w, byteOrder: byteOrder(endian)}
 }
 
