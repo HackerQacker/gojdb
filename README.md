@@ -6,4 +6,6 @@ gojdb is a debugger for Java implemented in Go.
 
 * Add a reference to the original project (inside LIECENCE) (plus the commit on copy)
 * Another abstraction layer for remote debugging.
-* wrap `adb` functionallity (using package `github.com/zach-klippenstein/goadb`)
+* Make this layer callable by an RPC method.
+* Wrap `adb` functionallity (using package `github.com/zach-klippenstein/goadb`)
+* Interactive command line interface layer.
