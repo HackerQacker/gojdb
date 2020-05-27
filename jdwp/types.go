@@ -135,6 +135,18 @@ type VariableTable struct {
 	Slots    []FrameVariable
 }
 
+type Line struct {
+	CodeIndex uint64
+	Number    int
+}
+
+// LineTable contains line number information for a method.
+type LineTable struct {
+	Start uint64
+	End   uint64
+	Lines []Line
+}
+
 func (i ObjectID) String() string        { return fmt.Sprintf("ObjectID<%d>", uint64(i)) }
 func (i ThreadID) String() string        { return fmt.Sprintf("ThreadID<%d>", uint64(i)) }
 func (i ThreadGroupID) String() string   { return fmt.Sprintf("ThreadGroupID<%d>", uint64(i)) }
