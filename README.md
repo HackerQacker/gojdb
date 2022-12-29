@@ -14,3 +14,9 @@ gojdb is a debugger for Java implemented in Go.
 * [ ] Backtrace.
 * [ ] Link to source path
 * [ ] Break on app startup
+* [ ] Change methods to return maps instead of slice for better efficiency (Example - conn.GetClasses should return `map[ClassID]ClassInfo` instead of `[]ClassInfo`)
+* [ ] Trace
+* [ ] Operations on demand (example - trace/untrace on location etc..)
+* Get some ideas from [Delve](https://github.com/go-delve/delve)
+* Get some ideas from JDB
+* Probably shouldn't use any of the available prompt library as each one of them looks trash. Just `readlines` looks fine.
